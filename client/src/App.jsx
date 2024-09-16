@@ -4,6 +4,7 @@ import Login from './Pages/Login/Login';
 import SignUp from './Pages/SignUp/SignUp';
 import Redirect from './Pages/Redirect/Redirect';
 import NoteDetails from './Pages/NoteDetails/NoteDetails';
+import Profile from './Pages/Profile/Profile';
 
 const App = () => {
 	return (
@@ -12,6 +13,7 @@ const App = () => {
 				<Route path='/' element={<Redirect />} />
 				<Route path='/dashboard' element={<Home />} />
 				<Route path='/dashboard/:id' element={<NoteDetails />} />
+				<Route path='/dashboard/profile' element={<Profile />} />
 				<Route path='/login' element={<Login />} />
 				<Route path='/signUp' element={<SignUp />} />
 			</Routes>

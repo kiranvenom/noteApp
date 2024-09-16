@@ -1,19 +1,17 @@
-import { Await, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ProfileCard from '../Profile/ProfileCard';
 import SearchBar from '../SearchBar/SearchBar';
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../utils/axiosInstance';
+import { useLocation } from 'react-router-dom';
 
 const NavBar = ({ userInfo, onSearch }) => {
+	let location = useLocation();
+
 	const [searchQuery, setSearchQuery] = useState('');
 	const [checkLs, setCheckLs] = useState(false);
 
 	const navigate = useNavigate();
-
-	const onLogout = () => {
-		localStorage.clear();
-		navigate('/login');
-	};
 
 	const handleSearch = async () => {
 		if (searchQuery.trim() === '') {
@@ -24,15 +22,15 @@ const NavBar = ({ userInfo, onSearch }) => {
 			const { data } = await axiosInstance.get('/searchNotes', {
 				params: { query: searchQuery },
 			});
-			onSearch(data.notes); // Pass search results to the parent component
+			onSearch(data.notes);
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
 	const onClearSearch = () => {
-		setSearchQuery(''); // Clear the search query
-		onSearch(null); // Pass null to indicate showing all notes
+		setSearchQuery('');
+		onSearch(null);
 	};
 
 	useEffect(() => {
@@ -44,18 +42,23 @@ const NavBar = ({ userInfo, onSearch }) => {
 	return (
 		<div className='px-6 md:px-10 py-4 shadow-md flex items-center justify-between'>
 			<h2 className='text-2xl hidden md:block'>Notes</h2>
-			{checkLs && (
-				<SearchBar
-					value={searchQuery}
-					onChange={({ target }) => {
-						setSearchQuery(target.value);
-					}}
-					handleSearch={handleSearch}
-					onClearSearch={onClearSearch}
-				/>
+
+			{location.pathname === '/dashboard' && (
+				<>
+					{checkLs && (
+						<SearchBar
+							value={searchQuery}
+							onChange={({ target }) => {
+								setSearchQuery(target.value);
+							}}
+							handleSearch={handleSearch}
+							onClearSearch={onClearSearch}
+						/>
+					)}
+				</>
 			)}
 
-			<ProfileCard onLogout={onLogout} userInfo={userInfo} />
+			<ProfileCard userInfo={userInfo} />
 		</div>
 	);
 };
