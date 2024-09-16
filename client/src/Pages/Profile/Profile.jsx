@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/select';
 
 import useScrollTracker from '@/hooks/useScrollTracker';
+import moment from 'moment';
 
 const Profile = () => {
 	const { scrollPercentage } = useScrollTracker();
@@ -50,11 +51,19 @@ const Profile = () => {
 							<h2 className='text-xl'>Profile</h2>
 							<div className='flex items-start justify-between mt-10'>
 								<h2>Full Name</h2>
-								<input type='text' className='bb' />
+								<input
+									type='text'
+									className='bb px-2'
+									value={userInfo.fullName}
+								/>
 							</div>
 							<div className='flex items-start justify-between mt-4'>
 								<h2>Email</h2>
-								<input type='text' className='bb' />
+								<input
+									type='text'
+									className='bb px-2'
+									value={userInfo.email}
+								/>
 							</div>
 
 							<div className='flex items-center justify-end mt-8'>
@@ -68,14 +77,20 @@ const Profile = () => {
 						<div className='bb p-4 w-[60%] mt-4'>
 							<h2 className='text-xl'>#Number Note(s)</h2>
 
-							<h1 className='font-bold text-6xl mt-10'>5</h1>
+							<h1 className='font-bold text-6xl mt-10'>
+								{userInfo.notesCount}
+							</h1>
 						</div>
 
 						{/* Created On */}
 						<div className='bb p-4 w-[60%] mt-4'>
 							<h2 className='text-xl'>Created On</h2>
 
-							<h1 className='font-bold text-6xl mt-10'>date</h1>
+							<h1 className='font-bold text-4xl mt-10'>
+								{moment(userInfo.createdOn).format(
+									'Do MM YYYY',
+								)}
+							</h1>
 						</div>
 
 						{/* theme */}
@@ -119,7 +134,11 @@ const Profile = () => {
 							<h2 className='text-xl'>Security</h2>
 							<div className='flex items-start justify-between mt-10'>
 								<h2>Password</h2>
-								<input type='text' className='bb' />
+								<input
+									type='text'
+									className='bb px-2'
+									placeholder='change password'
+								/>
 							</div>
 
 							<div className='flex items-center justify-end mt-8'>

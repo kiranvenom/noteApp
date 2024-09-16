@@ -5,7 +5,12 @@ const noteSchema = new mongoose.Schema({
 	content: { type: String, require: true },
 	tags: { type: [String], default: [], require: true },
 	isPinned: { type: Boolean, default: false },
-	userId: { type: String, require: true },
+	// userId: { type: String, require: true },
+	userId: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: 'User',
+	},
 	createdOn: { type: Date, default: new Date().getTime() },
 });
 

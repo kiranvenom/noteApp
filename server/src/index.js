@@ -115,22 +115,78 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/getUser', authenticationToken, async (req, res) => {
-	const { user } = req.user;
+	const { user } = req.user; // Extract user from the request
 
-	const isUser = await User.findOne({ _id: user._id });
+	try {
+		// Perform the aggregation to fetch user and related notes
+		const isUser = await User.aggregate([
+			{ $match: { fullName: user.fullName } },
+			{
+				$lookup: {
+					from: 'notes',
+					localField: '_id',
+					foreignField: 'userId',
+					as: 'details',
+				},
+			},
+			{
+				$addFields: {
+					notesCount: { $size: '$details' },
+					theme: 'light',
+				},
+			},
+			{
+				$project: {
+					fullName: 1,
+					email: 1,
+					createdOn: 1,
+					notesCount: 1,
+					theme: 1,
+				},
+			},
+		]);
 
-	if (!isUser) res.sendStatus(401);
+		if (!isUser || isUser.length === 0) {
+			return res.sendStatus(401);
+		}
 
-	return res.json({
-		user: {
-			fullName: isUser?.fullName,
-			email: isUser?.email,
-			_id: isUser?._id,
-			createdOn: isUser?.createdOn,
-		},
-		message: '',
-	});
+		const formattedResponse = {
+			user: {
+				fullName: isUser[0].fullName,
+				email: isUser[0].email,
+				_id: isUser[0]._id,
+				createdOn: isUser[0].createdOn,
+				notesCount: isUser[0].notesCount,
+				theme: isUser[0].theme,
+			},
+			message: '',
+		};
+
+		return res.json(formattedResponse);
+	} catch (error) {
+		// Handle any potential errors
+		console.error(error);
+		return res.status(500).json({ message: 'Internal Server Error' });
+	}
 });
+
+// app.get('/getUser', authenticationToken, async (req, res) => {
+// 	const { user } = req.user;
+
+// 	const isUser = await User.findOne({ _id: user._id });
+
+// 	if (!isUser) res.sendStatus(401);
+
+// 	return res.json({
+// 		user: {
+// 			fullName: isUser?.fullName,
+// 			email: isUser?.email,
+// 			_id: isUser?._id,
+// 			createdOn: isUser?.createdOn,
+// 		},
+// 		message: '',
+// 	});
+// });
 
 // notes -----------------------------------------------------
 app.post('/addNote', authenticationToken, async (req, res) => {
