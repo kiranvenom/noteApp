@@ -27,6 +27,12 @@ const ProfileDropDown = ({ userInfo }) => {
 
 				<Link
 					className='hover:bg-slate-100 px-2 py-1 rounded-md mt-1'
+					to={`/dashboard`}>
+					Dashboard
+				</Link>
+
+				<Link
+					className='hover:bg-slate-100 px-2 py-1 rounded-md mt-1'
 					to={`/dashboard/profile`}>
 					Profile
 				</Link>
