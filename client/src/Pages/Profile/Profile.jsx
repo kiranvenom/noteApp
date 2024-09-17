@@ -12,8 +12,10 @@ import {
 
 import useScrollTracker from '@/hooks/useScrollTracker';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
+	const navigate = useNavigate();
 	const { scrollPercentage } = useScrollTracker();
 
 	const [userInfo, setUserInfo] = useState('');
@@ -32,6 +34,20 @@ const Profile = () => {
 		}
 	};
 
+	const deleteAccount = async () => {
+		if (confirm('Are you sure you want to delete account')) {
+			try {
+				await axiosInstance.delete('/deleteAccount');
+			} catch (error) {
+				console.log(error);
+			}
+
+			console.clear();
+			localStorage.clear();
+			navigate('/login');
+		}
+	};
+
 	useEffect(() => {
 		getUserInfo();
 	}, []);
@@ -47,7 +63,9 @@ const Profile = () => {
 						</h1>
 
 						{/* Users Details */}
-						<div className='border border-slate-500 p-4 w-[60%]'>
+						<div
+							id='profile'
+							className='border border-slate-500 p-4 w-[60%]'>
 							<h2 className='text-xl dark:text-white'>Profile</h2>
 							<div className='flex items-start justify-between mt-10'>
 								<h2 className='dark:text-white'>Full Name</h2>
@@ -74,7 +92,9 @@ const Profile = () => {
 						</div>
 
 						{/* no of notes */}
-						<div className='border border-slate-500 p-4 w-[60%] mt-4'>
+						<div
+							id='notes'
+							className='border border-slate-500 p-4 w-[60%] mt-4'>
 							<h2 className='text-xl dark:text-white'>
 								Number Note(s)
 							</h2>
@@ -85,7 +105,9 @@ const Profile = () => {
 						</div>
 
 						{/* Created On */}
-						<div className='border border-slate-500 p-4 w-[60%] mt-4'>
+						<div
+							id='createdOn'
+							className='border border-slate-500 p-4 w-[60%] mt-4'>
 							<h2 className='text-xl dark:text-white'>
 								Created On
 							</h2>
@@ -98,7 +120,9 @@ const Profile = () => {
 						</div>
 
 						{/* theme */}
-						<div className='border border-slate-500 p-4 w-[60%] mt-4'>
+						<div
+							id='theme'
+							className='border border-slate-500 p-4 w-[60%] mt-4'>
 							<h2 className='text-xl dark:text-white'>Themes</h2>
 
 							<div className='flex items-start justify-between mt-10 dark:text-white'>
@@ -134,7 +158,9 @@ const Profile = () => {
 						</div>
 
 						{/* Security */}
-						<div className='border border-slate-500 p-4 w-[60%] mt-4'>
+						<div
+							id='security'
+							className='border border-slate-500 p-4 w-[60%] mt-4'>
 							<h2 className='text-xl dark:text-white'>
 								Security
 							</h2>
@@ -155,28 +181,45 @@ const Profile = () => {
 						</div>
 
 						{/* Delete Account */}
-						<div className='border border-slate-500 p-4 w-[60%] mt-4 mb-16'>
+						<div
+							id='deleteAccount'
+							className='border border-slate-500 p-4 w-[60%] mt-4 mb-16'>
 							<h2 className='text-xl dark:text-white'>
 								Delete Account
 							</h2>
 
 							<div className='flex items-center justify-start mt-8'>
-								<button className='bg-red-500 text-white px-4 py-1 rounded-md'>
+								<button
+									onClick={deleteAccount}
+									className='bg-red-500 text-white px-4 py-1 rounded-md'>
 									Delete Account
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<div className='w-[30%] mt-8 h-full sticky top-8'>
 					<div>
 						<ul className='border-l border-l-slate-400 pl-4 dark:text-white'>
-							<li className='my-3'>Profile</li>
-							<li className='my-3'>Number Note(s)</li>
-							<li className='my-3'>Created On</li>
-							<li className='my-3'>Themes</li>
-							<li className='my-3'>Security</li>
-							<li className='my-3'>Delete Account</li>
+							<a href='#profile'>
+								<li className='my-3'>Profile</li>
+							</a>
+							<a href='#notes'>
+								<li className='my-3'>Number Note(s)</li>
+							</a>
+							<a href='#createdOn'>
+								<li className='my-3'>Created On</li>
+							</a>
+							<a href='#theme'>
+								<li className='my-3'>Themes</li>
+							</a>
+							<a href='#security'>
+								<li className='my-3'>Security</li>
+							</a>
+							<a href='#deleteAccount'>
+								<li className='my-3'>Delete Account</li>
+							</a>
 						</ul>
 						<div
 							style={{

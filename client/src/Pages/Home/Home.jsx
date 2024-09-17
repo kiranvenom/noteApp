@@ -19,7 +19,7 @@ const Home = () => {
 
 	const [userInfo, setUserInfo] = useState(null);
 	const [userNotes, setUserNotes] = useState([]);
-	const [searchResults, setSearchResults] = useState(null); // Null initially
+	const [searchResults, setSearchResults] = useState(null);
 
 	const navigate = useNavigate();
 

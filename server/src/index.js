@@ -170,23 +170,20 @@ app.get('/getUser', authenticationToken, async (req, res) => {
 	}
 });
 
-// app.get('/getUser', authenticationToken, async (req, res) => {
-// 	const { user } = req.user;
+app.delete('/deleteAccount', authenticationToken, async (req, res) => {
+	const { user } = req.user;
 
-// 	const isUser = await User.findOne({ _id: user._id });
+	try {
+		await Note.deleteMany({ userId: user._id });
+		await User.deleteOne({ _id: user._id });
 
-// 	if (!isUser) res.sendStatus(401);
-
-// 	return res.json({
-// 		user: {
-// 			fullName: isUser?.fullName,
-// 			email: isUser?.email,
-// 			_id: isUser?._id,
-// 			createdOn: isUser?.createdOn,
-// 		},
-// 		message: '',
-// 	});
-// });
+		res.status(200).json({
+			message: 'User and all posts deleted successfully.',
+		});
+	} catch (error) {
+		console.log(error);
+	}
+});
 
 // notes -----------------------------------------------------
 app.post('/addNote', authenticationToken, async (req, res) => {

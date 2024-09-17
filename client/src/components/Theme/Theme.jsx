@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { CiLight, CiDark } from 'react-icons/ci';
+import { ThemeContext } from '@/App';
 
 const Theme = () => {
-	const [theme, setTheme] = useState('light');
+	const [theme, setTheme] = useContext(ThemeContext);
 
 	const toggleTheme = () => {
 		setTheme(theme === 'light' ? 'dark' : 'light');
