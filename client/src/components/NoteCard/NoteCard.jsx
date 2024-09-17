@@ -16,15 +16,17 @@ const NoteCard = ({
 }) => {
 	return (
 		<>
-			<div className='bg-white hover:bg-slate-50 shadow-md rounded-lg p-4 border border-gray-200 mx-4 md:mx-1'>
+			<div className='bg-white hover:bg-slate-50 shadow-md rounded-lg p-4 border border-gray-200 mx-4 md:mx-1 dark:bg-slate-600'>
 				<div className='flex justify-between items-start mb-3'>
 					<div>
 						<Link to={`/dashboard/${id}`}>
-							<h6 className='text-lg font-semibold text-gray-800 capitalize'>
+							<h6 className='text-lg font-semibold text-gray-800 capitalize dark:text-white'>
 								{title}
 							</h6>
 						</Link>
-						<span className='text-sm text-gray-500'>{date}</span>
+						<span className='text-sm text-gray-500 dark:text-slate-50'>
+							{date}
+						</span>
 					</div>
 
 					{isPinned ? (
@@ -46,7 +48,7 @@ const NoteCard = ({
 					)}
 				</div>
 
-				<p className='text-gray-600 mb-4 min-h-[50px]'>
+				<p className='text-gray-600 mb-4 min-h-[50px] dark:text-white'>
 					{content?.length > 80
 						? `${content.slice(0, 80)}...`
 						: content}

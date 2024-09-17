@@ -8,4 +8,4 @@ git add .
 git commit -m "${COMMIT_MESSAGE}"
 git push origin main
 
-echo "Commit fe: ${COMMIT_MESSAGE} pushed to origin main."
+echo "Commit ${COMMIT_MESSAGE} pushed to origin main."

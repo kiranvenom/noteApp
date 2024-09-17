@@ -42,26 +42,26 @@ const Profile = () => {
 			<div className='maxW flex'>
 				<div className='w-[70%]'>
 					<div>
-						<h1 className='my-10 font-extrabold text-6xl'>
+						<h1 className='my-10 font-extrabold text-6xl dark:text-white'>
 							Account Settings
 						</h1>
 
 						{/* Users Details */}
-						<div className='bb p-4 w-[60%]'>
-							<h2 className='text-xl'>Profile</h2>
+						<div className='border border-slate-500 p-4 w-[60%]'>
+							<h2 className='text-xl dark:text-white'>Profile</h2>
 							<div className='flex items-start justify-between mt-10'>
-								<h2>Full Name</h2>
+								<h2 className='dark:text-white'>Full Name</h2>
 								<input
 									type='text'
-									className='bb px-2'
+									className='border border-slate-500 px-2'
 									value={userInfo.fullName}
 								/>
 							</div>
 							<div className='flex items-start justify-between mt-4'>
-								<h2>Email</h2>
+								<h2 className='dark:text-white'>Email</h2>
 								<input
 									type='text'
-									className='bb px-2'
+									className='border border-slate-500 px-2'
 									value={userInfo.email}
 								/>
 							</div>
@@ -74,19 +74,23 @@ const Profile = () => {
 						</div>
 
 						{/* no of notes */}
-						<div className='bb p-4 w-[60%] mt-4'>
-							<h2 className='text-xl'>#Number Note(s)</h2>
+						<div className='border border-slate-500 p-4 w-[60%] mt-4'>
+							<h2 className='text-xl dark:text-white'>
+								Number Note(s)
+							</h2>
 
-							<h1 className='font-bold text-6xl mt-10'>
+							<h1 className='font-bold text-6xl mt-10 dark:text-white'>
 								{userInfo.notesCount}
 							</h1>
 						</div>
 
 						{/* Created On */}
-						<div className='bb p-4 w-[60%] mt-4'>
-							<h2 className='text-xl'>Created On</h2>
+						<div className='border border-slate-500 p-4 w-[60%] mt-4'>
+							<h2 className='text-xl dark:text-white'>
+								Created On
+							</h2>
 
-							<h1 className='font-bold text-4xl mt-10'>
+							<h1 className='font-bold text-4xl mt-10 dark:text-white'>
 								{moment(userInfo.createdOn).format(
 									'Do MM YYYY',
 								)}
@@ -94,10 +98,10 @@ const Profile = () => {
 						</div>
 
 						{/* theme */}
-						<div className='bb p-4 w-[60%] mt-4'>
-							<h2 className='text-xl'>Themes</h2>
+						<div className='border border-slate-500 p-4 w-[60%] mt-4'>
+							<h2 className='text-xl dark:text-white'>Themes</h2>
 
-							<div className='flex items-start justify-between mt-10'>
+							<div className='flex items-start justify-between mt-10 dark:text-white'>
 								<div>
 									<h2>Theme Preference</h2>
 									<p className=' text-xs'>
@@ -130,13 +134,15 @@ const Profile = () => {
 						</div>
 
 						{/* Security */}
-						<div className='bb p-4 w-[60%] mt-4'>
-							<h2 className='text-xl'>Security</h2>
+						<div className='border border-slate-500 p-4 w-[60%] mt-4'>
+							<h2 className='text-xl dark:text-white'>
+								Security
+							</h2>
 							<div className='flex items-start justify-between mt-10'>
-								<h2>Password</h2>
+								<h2 className='dark:text-white'>Password</h2>
 								<input
 									type='text'
-									className='bb px-2'
+									className='border border-slate-500 px-2'
 									placeholder='change password'
 								/>
 							</div>
@@ -149,8 +155,10 @@ const Profile = () => {
 						</div>
 
 						{/* Delete Account */}
-						<div className='bb p-4 w-[60%] mt-4 mb-16'>
-							<h2 className='text-xl'>Delete Account</h2>
+						<div className='border border-slate-500 p-4 w-[60%] mt-4 mb-16'>
+							<h2 className='text-xl dark:text-white'>
+								Delete Account
+							</h2>
 
 							<div className='flex items-center justify-start mt-8'>
 								<button className='bg-red-500 text-white px-4 py-1 rounded-md'>
@@ -162,7 +170,7 @@ const Profile = () => {
 				</div>
 				<div className='w-[30%] mt-8 h-full sticky top-8'>
 					<div>
-						<ul className='border-l border-l-slate-400 pl-4'>
+						<ul className='border-l border-l-slate-400 pl-4 dark:text-white'>
 							<li className='my-3'>Profile</li>
 							<li className='my-3'>Number Note(s)</li>
 							<li className='my-3'>Created On</li>
@@ -177,7 +185,7 @@ const Profile = () => {
 									85,
 								)}%`,
 							}}
-							className={`w-[4px] h-[25px] bg-black absolute -left-[0.3%]`}></div>
+							className='w-[4px] h-[25px] bg-black absolute -left-[0.3%] dark:bg-slate-50'></div>
 					</div>
 				</div>
 			</div>

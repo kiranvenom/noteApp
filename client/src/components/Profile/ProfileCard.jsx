@@ -14,7 +14,7 @@ const ProfileCard = ({ userInfo }) => {
 			<div className='flex items-center gap-1 md:gap-4'>
 				<Popover>
 					<PopoverTrigger>
-						<h1 className='border border-slate-300 bg-slate-100 w-[50px] h-[50px] center rounded-full'>
+						<h1 className='border border-slate-300 bg-slate-100 w-[50px] h-[50px] center rounded-full select-none'>
 							{getInitials(userInfo?.fullName)}
 						</h1>
 					</PopoverTrigger>

@@ -93,7 +93,7 @@ const Home = () => {
 	return (
 		<>
 			<NavBar userInfo={userInfo} onSearch={handleSearch} />
-			<div className='maxW py-4'>
+			<div className='maxW py-4 h-screen'>
 				<div className='grid md:grid-cols-3 gap-2'>
 					{searchResults && searchResults.length > 0 ? (
 						searchResults.map((note) => (

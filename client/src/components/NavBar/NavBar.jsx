@@ -4,6 +4,7 @@ import SearchBar from '../SearchBar/SearchBar';
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../utils/axiosInstance';
 import { useLocation } from 'react-router-dom';
+import Theme from '../Theme/Theme';
 
 const NavBar = ({ userInfo, onSearch }) => {
 	let location = useLocation();
@@ -40,8 +41,8 @@ const NavBar = ({ userInfo, onSearch }) => {
 	}, []);
 
 	return (
-		<div className='px-6 md:px-10 py-4 shadow-md flex items-center justify-between'>
-			<h2 className='text-2xl hidden md:block'>Notes</h2>
+		<div className='px-6 md:px-10 py-4 shadow-md flex items-center justify-between dark:bg-slate-800 dark:shadow-lg'>
+			<h2 className='text-2xl hidden md:block dark:text-white'>Notes</h2>
 
 			{location.pathname === '/dashboard' && (
 				<>
@@ -58,7 +59,11 @@ const NavBar = ({ userInfo, onSearch }) => {
 				</>
 			)}
 
-			<ProfileCard userInfo={userInfo} />
+			<div className='flex items-center gap-8'>
+				<Theme />
+
+				<ProfileCard userInfo={userInfo} />
+			</div>
 		</div>
 	);
 };
