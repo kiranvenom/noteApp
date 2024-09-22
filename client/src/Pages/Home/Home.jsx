@@ -10,6 +10,15 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/axiosInstance';
 import EmptyCard from '../../components/EmptyCard/EmptyCard';
 
+import {
+	Pagination,
+	PaginationContent,
+	PaginationItem,
+	PaginationLink,
+	PaginationNext,
+	PaginationPrevious,
+} from '@/components/ui/pagination';
+
 const Home = () => {
 	const [openAddEdit, setOpenAddEdit] = useState({
 		isShown: false,
@@ -19,6 +28,7 @@ const Home = () => {
 
 	const [userInfo, setUserInfo] = useState(null);
 	const [userNotes, setUserNotes] = useState([]);
+	const [userNotesFull, setUserNotesFull] = useState([]);
 	const [searchResults, setSearchResults] = useState(null);
 
 	const navigate = useNavigate();
@@ -37,11 +47,14 @@ const Home = () => {
 		}
 	};
 
-	const getUserNotes = async () => {
+	const getUserNotes = async (page = 1) => {
 		try {
-			const { data } = await axiosInstance.get('/allNotes');
+			const { data } = await axiosInstance.get(
+				`/allNotes?page=${page}&limit=9`,
+			);
 			if (data && data.notes) {
 				setUserNotes(data.notes);
+				setUserNotesFull(data);
 				setSearchResults(data.notes);
 			}
 		} catch (error) {
@@ -83,6 +96,10 @@ const Home = () => {
 		}
 	};
 
+	const handlePageChange = (pageNum) => {
+		getUserNotes(pageNum);
+	};
+
 	useEffect(() => {
 		getUserInfo();
 		getUserNotes();
@@ -93,7 +110,8 @@ const Home = () => {
 	return (
 		<>
 			<NavBar userInfo={userInfo} onSearch={handleSearch} />
-			<div className='maxW py-4 h-screen'>
+
+			<div className='maxW py-4 h-full min-h-[90vh]'>
 				<div className='grid md:grid-cols-3 gap-2'>
 					{searchResults && searchResults.length > 0 ? (
 						searchResults.map((note) => (
@@ -116,6 +134,65 @@ const Home = () => {
 						<EmptyCard />
 					)}
 				</div>
+
+				<div className='mt-8'>
+					<Pagination>
+						<PaginationContent>
+							{userNotesFull?.currentPage > 1 && (
+								<PaginationItem>
+									<PaginationPrevious
+										className={`border mx-2 hover:bg-slate-300 dark:text-white`}
+										onClick={() =>
+											handlePageChange(
+												userNotesFull.currentPage - 1,
+											)
+										}
+									/>
+								</PaginationItem>
+							)}
+
+							<PaginationItem>
+								{Array.from(
+									{
+										length: userNotesFull?.totalPages,
+									},
+									(_, i) => i + 1,
+								).map((num, idx) => {
+									return (
+										<PaginationLink
+											className={`border mx-2 hover:bg-slate-300 ${
+												userNotesFull?.currentPage ===
+													num &&
+												'bg-slate-300 dark:bg-slate-900'
+											}`}
+											key={idx}
+											onClick={() =>
+												handlePageChange(num)
+											}>
+											<span className='dark:text-white'>
+												{num}
+											</span>
+										</PaginationLink>
+									);
+								})}
+							</PaginationItem>
+
+							{userNotesFull?.currentPage <
+								userNotesFull?.totalPages && (
+								<PaginationItem>
+									<PaginationNext
+										className={`border mx-2 hover:bg-slate-300 dark:text-white`}
+										onClick={() =>
+											handlePageChange(
+												userNotesFull.currentPage + 1,
+											)
+										}
+									/>
+								</PaginationItem>
+							)}
+						</PaginationContent>
+					</Pagination>
+				</div>
 			</div>
 
 			<div
@@ -126,7 +203,7 @@ const Home = () => {
 						data: null,
 					})
 				}
-				className='w-[50px] h-[50px] center rounded-lg bg-myBlue absolute bottom-4 right-4 shadow-sm hover:shadow-md transition-all'>
+				className='w-[50px] h-[50px] center rounded-lg bg-myBlue fixed bottom-4 right-4 shadow-sm hover:shadow-md transition-all'>
 				<IoMdAdd color='white' size={30} />
 			</div>
 

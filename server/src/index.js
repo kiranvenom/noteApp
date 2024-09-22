@@ -267,20 +267,38 @@ app.put('/editNote/:noteId', authenticationToken, async (req, res) => {
 app.get('/allNotes', authenticationToken, async (req, res) => {
 	const { user } = req.user;
 
+	// Get page and limit from query, default to 1st page and 9 items per page
+	const page = parseInt(req.query.page) || 1;
+	const limit = parseInt(req.query.limit) || 9;
+
 	try {
-		const notes = await Note.find({ userId: user._id }).sort({
-			isPinned: -1,
-		});
+		// Find the total count of notes for the user
+		const totalNotes = await Note.countDocuments({ userId: user._id });
+
+		// Calculate how many documents to skip based on the page number
+		const skip = (page - 1) * limit;
+
+		// Fetch the paginated notes
+		const notes = await Note.find({ userId: user._id })
+			.sort({ isPinned: -1 })
+			.skip(skip)
+			.limit(limit);
+
+		// Calculate total pages
+		const totalPages = Math.ceil(totalNotes / limit);
 
 		return res.json({
 			error: false,
 			notes,
-			message: 'all notes retrieved',
+			currentPage: page,
+			totalPages,
+			totalNotes,
+			message: 'All notes retrieved',
 		});
 	} catch (error) {
 		return res
 			.status(500)
-			.json({ error: true, message: 'internal server error' });
+			.json({ error: true, message: 'Internal server error' });
 	}
 });
 

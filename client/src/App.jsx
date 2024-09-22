@@ -15,7 +15,7 @@ const App = () => {
 	return (
 		<>
 			<ThemeContext.Provider value={[theme, setTheme]}>
-				<div className='dark:bg-slate-800'>
+				<div className='dark:bg-slate-800 transition-all'>
 					<Routes>
 						<Route path='/' element={<Redirect />} />
 						<Route path='/dashboard' element={<Home />} />
