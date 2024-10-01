@@ -159,7 +159,7 @@ const AddEditNotes = ({
 						<>
 							<div
 								onClick={() => updateNote(label.data._id, note)}
-								className='px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-500'>
+								className='px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 cursor-pointer'>
 								Update
 							</div>
 						</>
