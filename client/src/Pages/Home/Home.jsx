@@ -100,6 +100,38 @@ const Home = () => {
 		getUserNotes(pageNum);
 	};
 
+	const openEditModal = (note) => {
+		setOpenAddEdit({
+			isShown: true,
+			type: 'edit',
+			data: note,
+		});
+	};
+
+	const updateNote = async (noteId, updatedNote) => {
+		try {
+			let response = await axiosInstance.patch(`/allNotes/${noteId}`, {
+				title: updatedNote.title,
+				content: updatedNote.content,
+				tags: updatedNote.tags.join(','),
+			});
+
+			if (response.data && !response.data.error) {
+				setOpenAddEdit({
+					isShown: false,
+					data: null,
+				});
+			}
+
+			getUserNotes();
+		} catch (error) {
+			console.error(
+				'Error updating note:',
+				error.response?.data?.message || error.message,
+			);
+		}
+	};
+
 	useEffect(() => {
 		getUserInfo();
 		getUserNotes();
@@ -125,7 +157,7 @@ const Home = () => {
 								content={note.content}
 								tags={note.tags}
 								isPinned={note.isPinned}
-								onEdit={() => {}}
+								onEdit={() => openEditModal(note)}
 								onDelete={() => deleteNote(note._id)}
 								onPinNote={() => pinedNote(note._id)}
 							/>
@@ -209,19 +241,24 @@ const Home = () => {
 
 			<Modal
 				isOpen={openAddEdit.isShown}
-				onRequestClose={() => {}}
+				onRequestClose={() => setOpenAddEdit({ isShown: false })}
 				style={{
 					overlay: {
 						backgroundColor: '#d9d9d9c2',
 					},
 				}}
-				contentLabel='Add/Edit Note'
+				contentLabel={
+					openAddEdit.type === 'edit' ? 'Edit Note' : 'Add Note'
+				}
 				className='center wh'>
 				<AddEditNotes
+					initialNote={openAddEdit.data || {}}
+					label={openAddEdit}
+					updateNote={updateNote}
 					onClose={() => {
 						setOpenAddEdit({
 							isShown: false,
-							type: 'add',
+							type: 'edit',
 							data: null,
 						});
 					}}

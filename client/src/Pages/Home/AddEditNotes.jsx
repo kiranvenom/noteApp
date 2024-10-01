@@ -1,12 +1,23 @@
 import { useState } from 'react';
 import axiosInstance from '../../utils/axiosInstance';
 
-const AddEditNotes = ({ initialNote = {}, onSave, onClose }) => {
+const AddEditNotes = ({
+	initialNote = {},
+	onSave,
+	onClose,
+	label,
+	updateNote,
+}) => {
 	const [note, setNote] = useState({
 		title: initialNote.title || '',
 		content: initialNote.content || '',
-		tags: initialNote.tags ? initialNote.tags.split(',') : [],
+		tags: Array.isArray(initialNote.tags)
+			? initialNote.tags
+			: initialNote.tags
+			? initialNote.tags.split(',')
+			: [],
 	});
+
 	const [newTag, setNewTag] = useState('');
 
 	const handleInputChange = (e) => {
@@ -107,21 +118,26 @@ const AddEditNotes = ({ initialNote = {}, onSave, onClose }) => {
 							Add
 						</button>
 					</div>
-					<div className='flex flex-wrap gap-2'>
-						{note.tags.map((tag, index) => (
-							<span
-								key={index}
-								className='px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded-lg flex items-center'>
-								{tag}
-								<button
-									type='button'
-									onClick={() => handleRemoveTag(tag)}
-									className='ml-2 text-red-600 hover:text-red-500'>
-									&times;
-								</button>
-							</span>
-						))}
-					</div>
+
+					{note?.tags?.length > 0 && (
+						<>
+							<div className='flex flex-wrap gap-2 border p-2 rounded-lg'>
+								{note.tags.map((tag, index) => (
+									<span
+										key={index}
+										className='px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded-lg flex items-center'>
+										{tag}
+										<button
+											type='button'
+											onClick={() => handleRemoveTag(tag)}
+											className='ml-2 text-red-600 hover:text-red-500'>
+											&times;
+										</button>
+									</span>
+								))}
+							</div>
+						</>
+					)}
 				</div>
 
 				<div className='flex justify-end space-x-3'>
@@ -131,11 +147,23 @@ const AddEditNotes = ({ initialNote = {}, onSave, onClose }) => {
 						className='px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300'>
 						Cancel
 					</button>
-					<button
-						type='submit'
-						className='px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-500'>
-						{initialNote.id ? 'Update' : 'Save'}
-					</button>
+					{label.type === 'add' ? (
+						<>
+							<button
+								type='submit'
+								className='px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-500'>
+								Save
+							</button>
+						</>
+					) : (
+						<>
+							<div
+								onClick={() => updateNote(label.data._id, note)}
+								className='px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-500'>
+								Update
+							</div>
+						</>
+					)}
 				</div>
 			</form>
 		</div>

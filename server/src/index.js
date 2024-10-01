@@ -341,6 +341,41 @@ app.get('/allNotes/:noteId', authenticationToken, async (req, res) => {
 	}
 });
 
+app.patch('/allNotes/:noteId', authenticationToken, async (req, res) => {
+	const noteId = req.params.noteId;
+	const { user } = req.user;
+	const { title, content, tags } = req.body;
+
+	try {
+		const note = await Note.findOne({ _id: noteId, userId: user._id });
+
+		if (!note) {
+			return res.status(404).json({
+				error: true,
+				message: 'Note not found',
+			});
+		}
+
+		if (title) note.title = title;
+		if (content) note.content = content;
+		if (tags) note.tags = Array.isArray(tags) ? tags : tags.split(',');
+
+		await note.save();
+
+		return res.json({
+			error: false,
+			note,
+			message: `Note with ID: ${noteId} successfully updated`,
+		});
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			error: true,
+			message: 'Server error while updating the note',
+		});
+	}
+});
+
 app.get('/searchNotes', authenticationToken, async (req, res) => {
 	const { query } = req.query;
 	const { user } = req.user;
