@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom';
 import ProfileCard from '../Profile/ProfileCard';
 import SearchBar from '../SearchBar/SearchBar';
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../utils/axiosInstance';
 import { useLocation } from 'react-router-dom';
 import Theme from '../Theme/Theme';
+import { baseUrl } from '@/utils/constants';
 
 const NavBar = ({ userInfo, onSearch }) => {
 	let location = useLocation();
@@ -12,7 +12,7 @@ const NavBar = ({ userInfo, onSearch }) => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [checkLs, setCheckLs] = useState(false);
 
-	const navigate = useNavigate();
+	const [working, setWorking] = useState(false);
 
 	const handleSearch = async () => {
 		if (searchQuery.trim() === '') {
@@ -34,10 +34,22 @@ const NavBar = ({ userInfo, onSearch }) => {
 		onSearch(null);
 	};
 
+	const getBEServerStatus = async () => {
+		try {
+			let { data } = await axiosInstance.get(`${baseUrl}/status`);
+
+			setWorking(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	useEffect(() => {
 		if (localStorage.getItem('token')) {
 			setCheckLs(true);
 		}
+
+		getBEServerStatus();
 	}, []);
 
 	return (
@@ -59,7 +71,12 @@ const NavBar = ({ userInfo, onSearch }) => {
 				</>
 			)}
 
-			<div className='flex items-center gap-8'>
+			<div className='flex items-center gap-4 pl-2'>
+				<div
+					className={`w-[20px] h-[20px] rounded-full ${
+						working ? 'bg-green-500' : 'bg-red-500'
+					}`}></div>
+
 				<Theme />
 
 				<ProfileCard userInfo={userInfo} />
