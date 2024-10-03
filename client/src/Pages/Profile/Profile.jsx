@@ -56,16 +56,16 @@ const Profile = () => {
 		<div>
 			<NavBar userInfo={userInfo} />
 			<div className='maxW flex'>
-				<div className='w-[70%]'>
+				<div className='md:w-[70%] w-[100%]'>
 					<div>
-						<h1 className='my-10 font-extrabold text-6xl dark:text-white'>
+						<h1 className='my-10 font-extrabold text-6xl dark:text-white mx-4 md:mx-0'>
 							Account Settings
 						</h1>
 
 						{/* Users Details */}
 						<div
 							id='profile'
-							className='border border-slate-500 p-4 w-[60%]'>
+							className='border border-slate-500 p-4 md:w-[60%] mx-4 md:mx-0'>
 							<h2 className='text-xl dark:text-white'>Profile</h2>
 							<div className='flex items-start justify-between mt-10'>
 								<h2 className='dark:text-white'>Full Name</h2>
@@ -94,7 +94,7 @@ const Profile = () => {
 						{/* no of notes */}
 						<div
 							id='notes'
-							className='border border-slate-500 p-4 w-[60%] mt-4'>
+							className='border border-slate-500 p-4 md:w-[60%] mx-4 md:mx-0 mt-4'>
 							<h2 className='text-xl dark:text-white'>
 								Number Note(s)
 							</h2>
@@ -107,7 +107,7 @@ const Profile = () => {
 						{/* Created On */}
 						<div
 							id='createdOn'
-							className='border border-slate-500 p-4 w-[60%] mt-4'>
+							className='border border-slate-500 p-4 md:w-[60%] mx-4 md:mx-0 mt-4'>
 							<h2 className='text-xl dark:text-white'>
 								Created On
 							</h2>
@@ -122,7 +122,7 @@ const Profile = () => {
 						{/* theme */}
 						<div
 							id='theme'
-							className='border border-slate-500 p-4 w-[60%] mt-4'>
+							className='border border-slate-500 p-4 md:w-[60%] mx-4 md:mx-0 mt-4'>
 							<h2 className='text-xl dark:text-white'>Themes</h2>
 
 							<div className='flex items-start justify-between mt-10 dark:text-white'>
@@ -160,7 +160,7 @@ const Profile = () => {
 						{/* Security */}
 						<div
 							id='security'
-							className='border border-slate-500 p-4 w-[60%] mt-4'>
+							className='border border-slate-500 p-4 md:w-[60%] mx-4 md:mx-0 mt-4'>
 							<h2 className='text-xl dark:text-white'>
 								Security
 							</h2>
@@ -183,7 +183,7 @@ const Profile = () => {
 						{/* Delete Account */}
 						<div
 							id='deleteAccount'
-							className='border border-slate-500 p-4 w-[60%] mt-4 mb-16'>
+							className='border border-slate-500 p-4 md:w-[60%] mx-4 md:mx-0 mt-4 mb-16'>
 							<h2 className='text-xl dark:text-white'>
 								Delete Account
 							</h2>
@@ -199,7 +199,7 @@ const Profile = () => {
 					</div>
 				</div>
 
-				<div className='w-[30%] mt-8 h-full sticky top-8'>
+				<div className='w-[30%] mt-8 h-full sticky top-8 hidden md:block'>
 					<div>
 						<ul className='border-l border-l-slate-400 pl-4 dark:text-white'>
 							<a href='#profile'>

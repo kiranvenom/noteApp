@@ -228,13 +228,13 @@ const Home = () => {
 			</div>
 
 			<div
-				onClick={() =>
+				onClick={() => {
 					setOpenAddEdit({
 						isShown: true,
 						type: 'add',
 						data: null,
-					})
-				}
+					});
+				}}
 				className='w-[50px] h-[50px] center rounded-lg bg-myBlue fixed bottom-4 right-4 shadow-sm hover:shadow-md transition-all'>
 				<IoMdAdd color='white' size={30} />
 			</div>
