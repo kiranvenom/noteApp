@@ -4,6 +4,8 @@ FROM node:18-alpine
 # Set working directory in container
 WORKDIR /app
 
+RUN npm install -g nodemon
+
 # Copy package.json and package-lock.json to install dependencies
 COPY package*.json ./
 
