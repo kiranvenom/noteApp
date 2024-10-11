@@ -1,0 +1,18 @@
+services:
+    frontend:
+        build:
+            context: ./client
+        ports:
+            - '3000:3000' # Expose frontend on localhost:3000
+        depends_on:
+            - backend # Ensure backend service is up before starting frontend
+
+    backend:
+        build:
+            context: ./server
+        ports:
+            - '5000:5000' # Expose backend on localhost:5000
+        environment:
+            - ACCESS_TOKEN_SECRET=M8w8AD2QGxJ+Hu5Me3B8aCZbnj9WHVCGwOC3FuBw
+            - CONNECTION_STRING=mongodb+srv://km060360:Kiran123@cluster0.t9kwa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+        command: npm start
