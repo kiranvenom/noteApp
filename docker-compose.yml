@@ -24,8 +24,7 @@ services:
             - ./server:/app
             - /app/node_modules
         environment:
-            - ACCESS_TOKEN_SECRET=M8w8AD2QGxJ+Hu5Me3B8aCZbnj9WHVCGwOC3FuBw
-            - CONNECTION_STRING=mongodb+srv://km060360:Kiran123@cluster0.t9kwa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+            - ./server/.env
         command: npm run dev
 volumes:
     node_modules:

@@ -6,6 +6,15 @@ import { useLocation } from 'react-router-dom';
 import Theme from '../Theme/Theme';
 import { baseUrl } from '@/utils/constants';
 
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from '@/components/ui/popover';
+
+import { FaRegCopy } from 'react-icons/fa6';
+import { CiCircleCheck } from 'react-icons/ci';
+
 const NavBar = ({ userInfo, onSearch }) => {
 	let location = useLocation();
 
@@ -13,6 +22,7 @@ const NavBar = ({ userInfo, onSearch }) => {
 	const [checkLs, setCheckLs] = useState(false);
 
 	const [working, setWorking] = useState(false);
+	const [copied, setCopied] = useState(false);
 
 	const handleSearch = async () => {
 		if (searchQuery.trim() === '') {
@@ -44,6 +54,16 @@ const NavBar = ({ userInfo, onSearch }) => {
 		}
 	};
 
+	const copyToClipBoard = () => {
+		navigator.clipboard.writeText(`${baseUrl}/status`);
+
+		setCopied(true);
+
+		setTimeout(() => {
+			setCopied(false);
+		}, 1500);
+	};
+
 	useEffect(() => {
 		if (localStorage.getItem('token')) {
 			setCheckLs(true);
@@ -72,10 +92,27 @@ const NavBar = ({ userInfo, onSearch }) => {
 			)}
 
 			<div className='flex items-center gap-4 pl-2'>
-				<div
-					className={`w-[20px] h-[20px] rounded-full ${
-						working ? 'bg-green-500' : 'bg-red-500'
-					}`}></div>
+				<Popover>
+					<PopoverTrigger>
+						<div
+							className={`w-[20px] h-[20px] rounded-full ${
+								working ? 'bg-green-500' : 'bg-red-500'
+							}`}></div>
+					</PopoverTrigger>
+					<PopoverContent>
+						<div className='flex items-center gap-4'>
+							<h2>{baseUrl}</h2>
+							{copied ? (
+								<CiCircleCheck size={30} />
+							) : (
+								<FaRegCopy
+									cursor={'pointer'}
+									onClick={copyToClipBoard}
+								/>
+							)}
+						</div>
+					</PopoverContent>
+				</Popover>
 
 				<Theme />
 
